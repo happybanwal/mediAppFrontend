@@ -1,6 +1,6 @@
 // import { BaseUrl } from "Axios"
 import axios from 'axios'
-import { storeData } from 'src/localStorage/LocalStorage'
+import { getData, storeData } from 'src/localStorage/LocalStorage'
 
 // Define your base URL here
 const BASE_URL = 'http://192.168.1.18:3000'
@@ -38,7 +38,7 @@ export const handleSignup = async ({
       const res = await axios.post(`${BASE_URL}/api/auth/user/signup`, body)
       console.log(res?.data)
       setUserData(res?.data)
-      await  storeData('userInfo',JSON.stringify(res?.data))
+      await storeData('userInfo', JSON.stringify(res?.data))
     }
   } catch (error: any) {
     console.log(error?.response?.data?.error)
@@ -61,16 +61,44 @@ export const handleLogin = async ({
     const res = await axios.post(`${BASE_URL}/api/auth/user/login`, body)
     console.log(res?.data)
     setUserData(res?.data)
-   await  storeData('userInfo',JSON.stringify(res?.data))
+    await storeData('userInfo', JSON.stringify(res?.data))
   } catch (error: any) {
     console.log(error?.response?.data?.error)
   }
 }
 
-const handleRoute=async()=>{
+export const handleRoute = async ({ setIsAuthenticated, setLoading }: any) => {
   try {
-    
-  } catch (error:any) {
+    console.log('entering approute ')
+    const data: any = await getData('userInfo')
+    const Data = JSON.parse(data)
+    // console.log(Data?.user?._id)
+    if (Data?.user?.role === 'doctor') {
+      console.log('entering doc ')
+      const res = await axios.get(`${BASE_URL}/api/doctor/${Data?.user?._id}`, {
+        headers: {
+          Authorization: `Bearer ${Data?.token}`,
+        },
+      })
+      setIsAuthenticated(true)
+      // setUserData(res?.data)
+    } else if (Data?.user?.role === 'patient') {
+      const res = await axios.get(`${BASE_URL}/api/user/${Data?.user?._id}`, {
+        headers: {
+          Authorization: `Bearer ${Data?.token}`,
+        },
+      })
+      setIsAuthenticated(false)
+      // console.log(res?.data)
+      // setUserData(res?.data)
+
+    }
+    setLoading(false)
+  } catch (error: any) {
     console.log(error?.response?.data?.error)
+    setLoading(false)
+  }
+  finally{
+    setLoading(false)
   }
 }

@@ -15,7 +15,7 @@ export const getData = async (key:any) => {
   try {
     const value = await AsyncStorage.getItem(key);
     if (value !== null) {
-      console.log('Retrieved data:', value);
+    //   console.log('Retrieved data:', value);
       return value;
     } else {
       console.log('No data found for the key:', key);

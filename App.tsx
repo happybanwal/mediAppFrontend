@@ -11,28 +11,33 @@ import { Provider as PaperProvider } from 'react-native-paper'
 import Login from 'src/screens/Login'
 import BottomTabNavigator from 'src/navigation/BottomTabNavigator'
 import SignUp from 'src/screens/SignUp'
+import { useEffect, useState } from 'react'
+import { handleRoute } from 'src/assets/services/api/Api'
+import SplashScreen from 'src/screens/SplashScreen'
+import AuthNavigator from 'src/navigation/AuthNavigator'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 const Tab = createBottomTabNavigator()
 
 export default function App() {
+  const [loading, setLoading] = useState(true)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+  useEffect(() => {
+    handleRoute({ setIsAuthenticated, setLoading })
+  }, [])
+
   return (
     <NavigationContainer>
       <JotaiProvider>
         <PaperProvider>
-          <Stack.Navigator
-            initialRouteName="Login"
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="SignUp" component={SignUp} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen
-              name="BottomTabNavigator"
-              component={BottomTabNavigator}
-            />
-          </Stack.Navigator>
+          {loading ? (
+            <SplashScreen />
+          ) : isAuthenticated ? (
+            <BottomTabNavigator />
+          ) : (
+            <AuthNavigator />
+          )}
         </PaperProvider>
       </JotaiProvider>
     </NavigationContainer>
