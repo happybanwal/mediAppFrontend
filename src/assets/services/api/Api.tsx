@@ -1,5 +1,6 @@
 // import { BaseUrl } from "Axios"
 import axios from 'axios'
+import { storeData } from 'src/localStorage/LocalStorage'
 
 // Define your base URL here
 const BASE_URL = 'http://192.168.1.18:3000'
@@ -37,6 +38,7 @@ export const handleSignup = async ({
       const res = await axios.post(`${BASE_URL}/api/auth/user/signup`, body)
       console.log(res?.data)
       setUserData(res?.data)
+      await  storeData('userInfo',JSON.stringify(res?.data))
     }
   } catch (error: any) {
     console.log(error?.response?.data?.error)
@@ -59,6 +61,7 @@ export const handleLogin = async ({
     const res = await axios.post(`${BASE_URL}/api/auth/user/login`, body)
     console.log(res?.data)
     setUserData(res?.data)
+   await  storeData('userInfo',JSON.stringify(res?.data))
   } catch (error: any) {
     console.log(error?.response?.data?.error)
   }
