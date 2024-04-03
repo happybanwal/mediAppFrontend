@@ -1,7 +1,7 @@
 import { View, Pressable } from 'react-native'
 import React from 'react'
 import { useAtom } from 'jotai'
-import { themeAtom } from 'src/store/themeStore'
+import { themeAtom } from 'src/store/userStore'
 import { MotiView } from 'moti'
 
 const ThemeSwitcher = () => {
