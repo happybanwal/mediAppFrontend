@@ -2,16 +2,17 @@ import { View, Text, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { StatusBar } from 'expo-status-bar'
-import FloatingTextInput from 'src/components/common/textinput/FloatingTextinput'
-import CommonButton from 'src/components/common/button/CommonButton'
+import FloatingTextInput from 'src/assets/common/textinput/FloatingTextinput'
+import CommonButton from 'src/assets/common/button/CommonButton'
 import { Checkbox, Switch } from 'react-native-paper'
-import RoleSelection from 'src/components/common/RoleSelection'
-import { handleSignup } from 'src/assets/services/api/Api'
+import RoleSelection from 'src/assets/common/RoleSelection'
+import { handleSignup } from 'src/services/api/Api'
 import { userAtom } from 'src/store/userStore'
 import { useAtom } from 'jotai'
 import { RootStackParamList } from 'src/types/common'
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
 
 const SignUp = () => {
   type signUpScreenProps = NativeStackNavigationProp<
@@ -31,7 +32,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const [selectedRole, setSelectedRole] = useState<string>('patient')
-  const [userData, setUserData] = useAtom(userAtom)
+  
+  const dispatch=useDispatch()
 
 
   const handleRoleChange = (newRole: string) => {
@@ -116,7 +118,7 @@ const SignUp = () => {
       specialist
     ) {
     //   console.log(name, email, password, selectedRole, specialist)
-    handleSignup({name,email,password,selectedRole,specialist,setUserData})
+    handleSignup({name,email,password,selectedRole,specialist,dispatch})
     // console.log(r)
     } else {
       console.log('no')

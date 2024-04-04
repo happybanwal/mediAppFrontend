@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar'
 import { GlobalClassName } from 'src/styles/global.styles'
 
 import { useAtom } from 'jotai'
-import { ThemeSwitcher } from 'src/components/common'
+import { ThemeSwitcher } from 'src/assets/common'
 import { MotiView } from 'moti'
 import { SafeAreaView } from 'react-native-safe-area-context'
 

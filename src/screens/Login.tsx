@@ -12,12 +12,13 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { handleLogin } from 'src/assets/services/api/Api'
-import RoleSelection from 'src/components/common/RoleSelection'
-import CommonButton from 'src/components/common/button/CommonButton'
-import FloatingTextInput from 'src/components/common/textinput/FloatingTextinput'
+import { handleLogin } from 'src/services/api/Api'
+import RoleSelection from 'src/assets/common/RoleSelection'
+import CommonButton from 'src/assets/common/button/CommonButton'
+import FloatingTextInput from 'src/assets/common/textinput/FloatingTextinput'
 import { userAtom } from 'src/store/userStore'
 import { RootStackParamList } from 'src/types/common'
+import { useDispatch } from 'react-redux'
 
 const Login = () => {
   type loginScreenProps = NativeStackNavigationProp<RootStackParamList, 'Login'>
@@ -28,7 +29,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const [selectedRole, setSelectedRole] = useState<string>('patient')
-  const [userData, setUserData] = useAtom(userAtom)
+ 
+
+  const dispatch=useDispatch()
 
 
   const dismissKeyboard = () => {
@@ -51,8 +54,7 @@ const Login = () => {
 
   const handleButton = async () => {
     if (email && password &&selectedRole) {
-      console.log(email, password,selectedRole)
-      handleLogin({email, password,selectedRole,setUserData})
+      handleLogin({email, password,selectedRole,dispatch})
     } else {
       console.log('FIll empty')
     }
