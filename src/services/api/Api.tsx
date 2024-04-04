@@ -17,7 +17,7 @@ export const handleSignup = async ({
   password,
   selectedRole,
   specialist,
-  dispatch
+  dispatch,
 }: any) => {
   try {
     const body = {
@@ -46,11 +46,10 @@ export const handleSignup = async ({
       },
     }
     console.log(userInfo)
-    
+
     // console.log(res?.data)
     await storeData('userInfo', JSON.stringify(res?.data))
     dispatch(setSignIn(userInfo))
-    
   } catch (error: any) {
     handleError(error)
   }
@@ -61,10 +60,9 @@ export const handleLogin = async ({
   email,
   selectedRole,
   setUserData,
-  dispatch
+  dispatch,
 }: any) => {
   try {
-   
     const body = { email, password, role: selectedRole }
     const res = await axios.post(`${BASE_URL}/api/auth/user/login`, body)
     // console.log(res?.data)
@@ -92,10 +90,7 @@ export const handleLogin = async ({
   }
 }
 
-export const handleRoute = async ({
-  setLoading,
-  dispatch
-}: any) => {
+export const handleRoute = async ({ setLoading, dispatch }: any) => {
   try {
     console.log('entering approute ')
     const data: any = await getData('userInfo')
@@ -130,13 +125,47 @@ export const handleRoute = async ({
       setLoading(false)
     } else {
       // Unknown role, treat as unauthenticated
-      dispatch(setSignOut());
-      setLoading(false);
+      dispatch(setSignOut())
+      setLoading(false)
     }
   } catch (error: any) {
     // Handle errors, such as network issues or expired token
-    console.error('Error while handling route:', error);
-    dispatch(setSignOut());
-    setLoading(false);
+    console.error('Error while handling route:', error)
+    dispatch(setSignOut())
+    setLoading(false)
+  }
+}
+
+// list all doc
+export const getDocList = async ({ setLoading, token, setList }: any) => {
+  // console.log(token)
+  try {
+    const res = await axios.get(`${BASE_URL}/api/doctor/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    // console.log(res.data)
+    setList(res?.data)
+    setLoading(false)
+  } catch (error: any) {
+    console.log(error)
+    setLoading(false)
+  }
+}
+
+
+// book appointment
+export const bookAppointment = async ({ patientId,doctorId,token }: any) => {
+  // console.log(token)
+  try {
+    const res = await axios.get(`${BASE_URL}/api/doctor/`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+
+    // console.log(res.data)
+    
+  } catch (error: any) {
+    console.log(error)
+    // setLoading(false)
   }
 }

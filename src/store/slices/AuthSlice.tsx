@@ -62,4 +62,8 @@ export const selectIsAuthenticated = (state: {
 // export const selectEmail = (state: { userAuth: AuthState }): string | null => state.userAuth.email;
 // export const selectUserName = (state: { userAuth: AuthState }): string | null => state.userAuth.userName;
 
+
+export const selectRole =(state: {
+    userAuth: AuthState
+  }): string => state.userAuth.user.role
 export default authSlice.reducer

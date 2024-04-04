@@ -4,4 +4,8 @@ export type RootStackParamList = {
   Login: undefined
   SignUp:undefined
   BottomTabNavigator: undefined
+  BookApointment:{
+    patientId:undefined | string,
+    doctorId:undefined | string
+  }
 }
